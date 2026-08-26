@@ -1,0 +1,437 @@
+:root{
+  --navy:#0b1f4d;
+  --navy2:#162f6b;
+  --blue:#2563eb;
+  --blue2:#4f46e5;
+  --cyan:#38bdf8;
+  --surface:rgba(255,255,255,.78);
+  --surface-strong:rgba(255,255,255,.94);
+  --border:rgba(148,163,184,.22);
+  --text:#14213d;
+  --muted:#64748b;
+  --shadow:0 16px 40px rgba(15,23,42,.08);
+}
+
+*{box-sizing:border-box}
+
+body{
+  min-height:100vh;
+  margin:0;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 5% 0%,rgba(56,189,248,.15),transparent 30%),
+    radial-gradient(circle at 95% 5%,rgba(79,70,229,.12),transparent 30%),
+    linear-gradient(145deg,#eef6ff 0%,#f7f9ff 45%,#eef4ff 100%);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+/* HEADER */
+
+.hrm-nav{
+  min-height:74px;
+  padding:.65rem 2rem;
+  background:linear-gradient(120deg,rgba(11,31,77,.97),rgba(49,46,129,.94));
+  border-bottom:1px solid rgba(255,255,255,.12);
+  box-shadow:0 10px 35px rgba(15,23,42,.18);
+  backdrop-filter:blur(20px);
+}
+
+.navbar-brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  color:#fff!important;
+}
+
+.brand-mark{
+  width:40px;
+  height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:13px;
+  background:linear-gradient(135deg,#38bdf8,#6366f1);
+  box-shadow:0 8px 20px rgba(56,189,248,.28);
+}
+
+.brand-copy{
+  line-height:1.05;
+}
+
+.brand-copy strong{
+  display:block;
+  font-size:1.08rem;
+  letter-spacing:.01em;
+}
+
+.brand-copy small{
+  display:block;
+  margin-top:5px;
+  font-size:.66rem;
+  font-weight:500;
+  opacity:.72;
+}
+
+.hrm-nav .nav-link{
+  color:rgba(255,255,255,.76)!important;
+  font-weight:600;
+  border-radius:10px;
+  padding:.6rem .8rem!important;
+  transition:.2s ease;
+}
+
+.hrm-nav .nav-link:hover,
+.hrm-nav .nav-link.active{
+  color:#fff!important;
+  background:rgba(255,255,255,.11);
+}
+
+.hrm-nav form{margin:0}
+
+/* PAGE */
+
+main.container-fluid{
+  max-width:1700px;
+  margin:auto;
+  padding-top:30px!important;
+}
+
+.hrm-page .hrm-heading{
+  color:#10224a;
+  font-weight:800;
+  letter-spacing:-.035em;
+}
+
+.hrm-page .hrm-subtitle{
+  color:var(--muted);
+  font-size:.95rem;
+}
+
+.card,.small-box{
+  background:var(--surface);
+  border:1px solid rgba(255,255,255,.8);
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  overflow:hidden;
+}
+
+.card{
+  margin-bottom:1.5rem;
+}
+
+.card-header{
+  min-height:62px;
+  display:flex;
+  align-items:center;
+  background:rgba(255,255,255,.62);
+  border-bottom:1px solid var(--border);
+  padding:1rem 1.3rem;
+}
+
+.card-title{
+  margin:0;
+  font-size:.96rem;
+  font-weight:750;
+  color:#16264b;
+}
+
+.card-header .float-right{
+  margin-left:auto;
+}
+
+/* KPI */
+
+.hrm-page .hrm-kpi{
+  min-height:142px;
+  position:relative;
+  border:1px solid rgba(255,255,255,.82)!important;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.hrm-page .hrm-kpi:hover{
+  transform:translateY(-3px);
+  box-shadow:0 20px 45px rgba(15,23,42,.12);
+}
+
+.hrm-page .hrm-kpi .inner{
+  padding:25px;
+}
+
+.hrm-page .hrm-kpi h3{
+  color:#10224a!important;
+  font-size:2.15rem;
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.hrm-page .hrm-kpi p{
+  color:#526176!important;
+  font-size:.9rem;
+  font-weight:700;
+  margin:0;
+}
+
+.hrm-page .hrm-kpi .icon{
+  position:absolute;
+  right:22px;
+  top:28px;
+  width:58px;
+  height:58px;
+  border-radius:17px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.7rem;
+}
+
+.hrm-kpi-blue .icon{background:#eef2ff;color:#4f46e5!important}
+.hrm-kpi-green .icon{background:#ecfdf5;color:#059669!important}
+.hrm-kpi-red .icon{background:#fff1f2;color:#e11d48!important}
+.hrm-kpi-amber .icon{background:#fffbeb;color:#d97706!important}
+
+.hrm-page .hrm-kpi-blue{border-top:3px solid #6366f1!important}
+.hrm-page .hrm-kpi-green{border-top:3px solid #10b981!important}
+.hrm-page .hrm-kpi-red{border-top:3px solid #f43f5e!important}
+.hrm-page .hrm-kpi-amber{border-top:3px solid #f59e0b!important}
+
+/* TABLES */
+
+.table{
+  margin-bottom:0;
+  color:#263550;
+}
+
+.table thead th{
+  background:rgba(241,245,249,.68);
+  border-top:0;
+  border-bottom:1px solid #e5eaf2;
+  color:#596981;
+  font-size:.76rem;
+  text-transform:uppercase;
+  letter-spacing:.045em;
+  font-weight:750;
+  padding:.9rem 1rem;
+}
+
+.table td{
+  vertical-align:middle;
+  border-top:1px solid rgba(226,232,240,.75);
+  padding:1rem;
+}
+
+.table-hover tbody tr{
+  transition:background .15s ease;
+}
+
+.table-hover tbody tr:hover{
+  background:rgba(239,246,255,.65);
+}
+
+.employee-avatar{
+  width:42px!important;
+  height:42px!important;
+  border-radius:13px!important;
+  background:linear-gradient(135deg,#dbeafe,#e0e7ff)!important;
+  color:#3730a3!important;
+  box-shadow:inset 0 0 0 1px rgba(99,102,241,.1);
+}
+
+/* STATUS */
+
+.status-pill{
+  min-width:80px!important;
+  padding:6px 10px!important;
+  border-radius:999px!important;
+  font-size:.68rem!important;
+  letter-spacing:.02em;
+}
+
+.status-active,.status-present,.status-approved{
+  background:#dcfce7!important;
+  color:#047857!important;
+}
+
+.status-inactive,.status-absent,.status-rejected{
+  background:#ffe4e6!important;
+  color:#be123c!important;
+}
+
+.status-pending,.status-half_day{
+  background:#fef3c7!important;
+  color:#b45309!important;
+}
+
+.status-wfh{
+  background:#e0e7ff!important;
+  color:#4338ca!important;
+}
+
+/* BUTTONS */
+
+.btn{
+  border-radius:10px;
+  font-weight:650;
+  padding:.52rem .9rem;
+  box-shadow:none!important;
+}
+
+.btn-primary{
+  border:0;
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+}
+
+.btn-primary:hover{
+  background:linear-gradient(135deg,#1d4ed8,#4338ca);
+  transform:translateY(-1px);
+}
+
+.btn-outline-primary{
+  color:#3155c6;
+  border-color:#b8c7f6;
+  background:rgba(255,255,255,.55);
+}
+
+.btn-secondary{
+  background:#e8edf5;
+  border-color:#e8edf5;
+  color:#475569;
+}
+
+/* FORMS */
+
+.form-section{
+  background:rgba(248,250,252,.62)!important;
+  border:1px solid rgba(203,213,225,.55)!important;
+  border-radius:16px!important;
+  padding:20px!important;
+}
+
+.form-control{
+  min-height:42px;
+  border-radius:10px;
+  border:1px solid #d6deeb;
+  background:rgba(255,255,255,.86);
+  color:#24324a;
+}
+
+textarea.form-control{min-height:auto}
+
+.form-control:focus{
+  border-color:#818cf8;
+  box-shadow:0 0 0 3px rgba(99,102,241,.12);
+}
+
+label{
+  color:#4b5c75;
+  font-size:.82rem;
+  font-weight:700;
+}
+
+.badge-primary{
+  background:#e0e7ff;
+  color:#4338ca;
+  padding:.45rem .65rem;
+}
+
+/* LOGIN */
+
+.login-body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(56,189,248,.24),transparent 32%),
+    radial-gradient(circle at 90% 90%,rgba(79,70,229,.2),transparent 32%),
+    linear-gradient(145deg,#eaf5ff,#f6f4ff);
+}
+
+.login-card{
+  width:min(440px,94vw);
+  padding:38px;
+  background:rgba(255,255,255,.78);
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:26px;
+  box-shadow:0 28px 80px rgba(30,41,59,.16);
+  backdrop-filter:blur(22px);
+}
+
+.login-logo{
+  width:64px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 18px;
+  border-radius:20px;
+  color:white;
+  font-size:1.55rem;
+  background:linear-gradient(135deg,#38bdf8,#4f46e5);
+  box-shadow:0 15px 30px rgba(79,70,229,.22);
+}
+
+.login-card h2{
+  text-align:center;
+  color:#10224a;
+  font-weight:850;
+  letter-spacing:-.035em;
+}
+
+.login-card .login-subtitle{
+  text-align:center;
+  color:#64748b;
+  margin-bottom:28px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:991px){
+  .hrm-nav{padding:.65rem 1rem}
+  .navbar-collapse{
+    margin-top:12px;
+    padding:10px;
+    border-radius:14px;
+    background:rgba(0,0,0,.12);
+  }
+}
+
+@media(max-width:767px){
+  main.container-fluid{
+    padding:20px 14px!important;
+  }
+
+  .hrm-page .hrm-kpi{
+    min-height:118px;
+  }
+
+  .hrm-page .hrm-kpi .inner{
+    padding:18px;
+  }
+
+  .hrm-page .hrm-kpi h3{
+    font-size:1.75rem;
+  }
+
+  .hrm-page .hrm-kpi .icon{
+    width:44px;
+    height:44px;
+    right:14px;
+    top:18px;
+    font-size:1.25rem;
+  }
+
+  .table{
+    min-width:760px;
+  }
+
+  .card{
+    border-radius:16px;
+  }
+
+  .login-card{
+    padding:28px 22px;
+  }
+}

@@ -1,0 +1,20 @@
+.hrm-page .hrm-heading { font-weight: 800; letter-spacing: -.025em; color: #172033; }
+.hrm-page .hrm-subtitle { color: #64748b; }
+.hrm-page .hrm-kpi { min-height: 128px; border: 0 !important; position: relative; }
+.hrm-page .hrm-kpi .inner { padding: 22px; }
+.hrm-page .hrm-kpi h3 { color: #172033 !important; font-size: 2rem; font-weight: 800; }
+.hrm-page .hrm-kpi p { color: #526176 !important; font-weight: 700; }
+.hrm-page .hrm-kpi .icon { color: rgba(79,70,229,.14) !important; }
+.hrm-page .hrm-kpi-blue { border-top: 4px solid #4f46e5 !important; }
+.hrm-page .hrm-kpi-green { border-top: 4px solid #07865f !important; }
+.hrm-page .hrm-kpi-red { border-top: 4px solid #d63c4b !important; }
+.hrm-page .hrm-kpi-amber { border-top: 4px solid #e99a14 !important; }
+.hrm-page .status-pill { display:inline-block; min-width:76px; padding:5px 9px; border-radius:999px; color:#fff; font-size:.7rem; font-weight:800; text-align:center; }
+.hrm-page .status-active,.hrm-page .status-present,.hrm-page .status-approved { background:#07865f; }
+.hrm-page .status-inactive,.hrm-page .status-absent,.hrm-page .status-rejected { background:#d63c4b; }
+.hrm-page .status-pending,.hrm-page .status-half_day { background:#d88909; }
+.hrm-page .status-wfh { background:#4f46e5; }
+.hrm-page .employee-avatar { width:38px;height:38px;border-radius:11px;display:inline-flex;align-items:center;justify-content:center;background:#efefff;color:#4f46e5;font-weight:800;margin-right:10px; }
+.hrm-page .table td { color:#29364a !important; }
+.hrm-page .form-section { background:#f8fafc;border:1px solid #e2e8f0;border-radius:13px;padding:18px;margin-bottom:18px; }
+@media(max-width:767px){.hrm-page .hrm-kpi{min-height:105px}.hrm-page .hrm-kpi .icon{display:none}}

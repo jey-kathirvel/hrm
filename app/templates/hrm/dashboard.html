@@ -1,0 +1,19 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+<link rel="stylesheet" href="/static/css/ads-hrm.css?v=2">
+<div class="hrm-page">
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+    <div><h1 class="h3 hrm-heading mb-1"><i class="fas fa-user-tie text-primary mr-2"></i>Human Resources</h1><p class="hrm-subtitle mb-0">People, attendance and leave at a glance</p></div>
+    <a href="/hrm/employees/create" class="btn btn-primary"><i class="fas fa-user-plus mr-1"></i>Add Employee</a>
+  </div>
+  <div class="row">
+    {% for value,label,icon,kind in [(summary.active,'Active Employees','users','blue'),(summary.present,'Present Today','user-check','green'),(summary.absent,'Absent Today','user-times','red'),(summary.pending,'Pending Leaves','calendar-alt','amber')] %}
+    <div class="col-6 col-xl-3"><div class="small-box hrm-kpi hrm-kpi-{{ kind }}"><div class="inner"><h3>{{ value }}</h3><p>{{ label }}</p></div><div class="icon"><i class="fas fa-{{ icon }}"></i></div></div></div>
+    {% endfor %}
+  </div>
+  <div class="row">
+    <div class="col-lg-7"><div class="card"><div class="card-header"><h3 class="card-title"><i class="fas fa-users mr-2 text-primary"></i>Recent Employees</h3><a href="/hrm/employees" class="btn btn-sm btn-outline-primary float-right">View all</a></div><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0"><thead><tr><th>Employee</th><th>Department</th><th>Designation</th><th>Status</th></tr></thead><tbody>{% for e in employees %}<tr><td><span class="employee-avatar">{{ e.full_name[:1]|upper }}</span><strong>{{ e.full_name }}</strong><br><small class="text-muted ml-5">{{ e.employee_code }}</small></td><td>{{ e.department }}</td><td>{{ e.designation }}</td><td><span class="status-pill status-{{ 'active' if e.is_active else 'inactive' }}">{{ 'Active' if e.is_active else 'Inactive' }}</span></td></tr>{% else %}<tr><td colspan="4" class="text-center text-muted py-4">No employees yet.</td></tr>{% endfor %}</tbody></table></div></div></div></div>
+    <div class="col-lg-5"><div class="card"><div class="card-header"><h3 class="card-title"><i class="fas fa-calendar-minus mr-2 text-primary"></i>Latest Leave Requests</h3><a href="/hrm/leaves" class="btn btn-sm btn-outline-primary float-right">Manage</a></div><div class="card-body p-0"><table class="table table-hover mb-0"><tbody>{% for l in leaves %}<tr><td><strong>{{ l.employee.full_name }}</strong><br><small class="text-muted">{{ l.start_date }} to {{ l.end_date }}</small></td><td><span class="status-pill status-{{ l.status|lower }}">{{ l.status|title }}</span></td></tr>{% else %}<tr><td class="text-center text-muted py-4">No leave requests.</td></tr>{% endfor %}</tbody></table></div></div></div>
+  </div>
+</div>
+{% endblock %}
