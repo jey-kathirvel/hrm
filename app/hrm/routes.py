@@ -175,6 +175,11 @@ def masters_page(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse(request=request, name="hrm/masters.html", context=HRMService.masters(db))
 
 
+@router.get("/settings")
+def settings_root():
+    return RedirectResponse("/hrm/settings/masters", 303)
+
+
 @router.get("/settings/company", response_class=HTMLResponse)
 def company_page(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse(request=request, name="hrm/company.html", context={"company": get_company_profile(db)})
