@@ -460,3 +460,31 @@ label{
   main.container-fluid{padding:0!important}
   .payslip-print .card{box-shadow:none;border:0}
 }
+/* Persistent shell: HRM modules load here instead of replacing the whole page. */
+.hrm-content-frame {
+  display: none;
+  width: 100%;
+  min-height: calc(100vh - 92px);
+  border: 0;
+  background: transparent;
+}
+
+.hrm-content-frame.is-active {
+  display: block;
+}
+
+body.hrm-embedded .hrm-nav,
+body.hrm-embedded > .hrm-content-frame {
+  display: none !important;
+}
+
+body.hrm-embedded > main {
+  padding-top: 1rem !important;
+}
+
+@media print {
+  .hrm-content-frame.is-active {
+    display: block;
+    min-height: 0;
+  }
+}
