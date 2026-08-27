@@ -4,12 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#102451">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ADS HRM">
   <title>ADS HRM</title>
+
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="/static/css/standalone.css?v=3">
-  <link rel="stylesheet" href="/static/css/ads-hrm.css?v=3">
+  <link rel="stylesheet" href="/static/css/standalone.css?v=6">
+  <link rel="stylesheet" href="/static/css/ads-hrm.css?v=6">
 </head>
 
 <body>
@@ -93,6 +100,12 @@
 
       <li class="nav-item"><a class="nav-link {% if '/payslips' in request.url.path %}active{% endif %}" href="/hrm/payslips"><i class="fas fa-file-invoice-dollar mr-1"></i> Payslips</a></li>
 
+      <li id="installAppItem" class="nav-item d-none">
+        <button id="installAppButton" type="button" class="btn btn-link nav-link">
+          <i class="fas fa-download mr-1"></i> Install App
+        </button>
+      </li>
+
       <li class="nav-item ml-lg-2">
         <form method="post" action="/logout">
           <button type="submit" class="btn btn-link nav-link">
@@ -113,6 +126,44 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function () {
+  var navigation = $('#hrmNavigation');
+  navigation.on('click', 'a.nav-link', function () {
+    if ($('.navbar-toggler').is(':visible')) navigation.collapse('hide');
+  });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/service-worker.js', {scope: '/'});
+    });
+  }
+
+  var installPrompt = null;
+  var installItem = document.getElementById('installAppItem');
+  var installButton = document.getElementById('installAppButton');
+  var isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+  if (isIos && !isStandalone) installItem.classList.remove('d-none');
+  window.addEventListener('beforeinstallprompt', function (event) {
+    event.preventDefault();
+    installPrompt = event;
+    installItem.classList.remove('d-none');
+  });
+  installButton.addEventListener('click', function () {
+    if (installPrompt) {
+      installPrompt.prompt();
+      installPrompt.userChoice.finally(function () {
+        installPrompt = null;
+        installItem.classList.add('d-none');
+      });
+    } else if (isIos) {
+      window.alert('To install ADS HRM on iPhone or iPad: tap Share, then choose Add to Home Screen.');
+    }
+  });
+}());
+</script>
 
 </body>
 </html>

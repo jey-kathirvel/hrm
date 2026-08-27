@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi.responses import RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from app.config.settings import settings
@@ -15,6 +15,10 @@ app.add_middleware(SessionMiddleware,secret_key=settings.session_secret,https_on
 app.mount("/static",StaticFiles(directory="app/static"),name="static")
 app.mount("/uploads",StaticFiles(directory=str(settings.upload_root)),name="uploads")
 app.include_router(auth_router); app.include_router(hrm_router); app.include_router(payroll_router)
+@app.get("/manifest.webmanifest", include_in_schema=False)
+def manifest(): return FileResponse("app/static/manifest.webmanifest", media_type="application/manifest+json")
+@app.get("/service-worker.js", include_in_schema=False)
+def service_worker(): return FileResponse("app/static/service-worker.js", media_type="application/javascript", headers={"Service-Worker-Allowed":"/", "Cache-Control":"no-cache"})
 @app.get("/")
 def root(): return RedirectResponse("/hrm",303)
 @app.get("/health")

@@ -413,13 +413,26 @@ label{
     padding:10px;
     border-radius:14px;
     background:rgba(0,0,0,.12);
+    max-height:calc(100vh - 92px);
+    overflow-y:auto;
   }
+  .hrm-nav .nav-link{min-height:46px;display:flex;align-items:center;padding:.7rem .85rem!important}
+  .hrm-nav .navbar-nav{align-items:stretch!important}
+  .hrm-nav form .nav-link{width:100%;text-align:left}
 }
 
 @media(max-width:767px){
   main.container-fluid{
-    padding:20px 14px!important;
+    padding:18px 12px!important;
   }
+
+  .navbar-brand{gap:8px}
+  .brand-mark{width:36px;height:36px;border-radius:11px}
+  .brand-copy strong{font-size:1rem}
+  .brand-copy small{font-size:.6rem}
+  .hrm-page .hrm-heading{font-size:1.55rem}
+  .hrm-page .hrm-subtitle{font-size:.86rem}
+  .hrm-page > .mb-4{margin-bottom:1rem!important}
 
   .hrm-page .hrm-kpi{
     min-height:118px;
@@ -441,17 +454,41 @@ label{
     font-size:1.25rem;
   }
 
-  .table{
-    min-width:760px;
-  }
+  .table{min-width:680px}
+  .table-responsive{-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  .table td,.table thead th{padding:.75rem}
 
   .card{
     border-radius:16px;
+    margin-bottom:1rem;
   }
+
+  .card-header{min-height:54px;padding:.85rem 1rem;flex-wrap:wrap;gap:.5rem}
+  .card-body{padding:1rem}
+  .card-body.p-4{padding:1rem!important}
+  .form-section{padding:14px!important}
+  .form-control{min-height:46px;font-size:16px}
+  .btn{min-height:44px;padding:.58rem .85rem}
+  .form-inline{display:flex;align-items:stretch!important}
+  .form-inline .form-control{width:100%;margin:0 0 .65rem!important}
+  .form-inline .btn{width:100%}
+  .hrm-page .d-flex{flex-wrap:wrap;gap:.5rem}
+  .hrm-page .d-print-none > div{display:flex;flex-wrap:wrap;gap:.35rem}
+  .hrm-page .d-print-none .btn{margin:0!important}
+  .payslip-print .row > .col-6{flex:0 0 100%;max-width:100%}
+  .payslip-print .table{min-width:560px}
+  .company-logo-preview{min-height:120px}
 
   .login-card{
     padding:28px 22px;
   }
+}
+
+@media(max-width:390px){
+  .brand-copy small{display:none}
+  .hrm-nav{min-height:64px;padding:.55rem .75rem}
+  .hrm-page .hrm-kpi{min-height:100px}
+  .hrm-page .hrm-kpi h3{font-size:1.55rem}
 }
 
 @media print{
