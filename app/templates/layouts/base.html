@@ -8,8 +8,8 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="/static/css/standalone.css?v=5">
-  <link rel="stylesheet" href="/static/css/ads-hrm.css?v=5">
+  <link rel="stylesheet" href="/static/css/standalone.css?v=4">
+  <link rel="stylesheet" href="/static/css/ads-hrm.css?v=4">
 </head>
 
 <body>
@@ -145,6 +145,18 @@
       event.preventDefault();
       openModule(link.getAttribute('href'));
     });
+  });
+
+  frame.addEventListener('load', function () {
+    try {
+      var innerDocument = frame.contentDocument;
+      if (innerDocument) {
+        frame.style.height = Math.max(innerDocument.documentElement.scrollHeight,
+          innerDocument.body ? innerDocument.body.scrollHeight : 0, 700) + 'px';
+      }
+    } catch (error) {
+      frame.style.height = 'calc(100vh - 92px)';
+    }
   });
 
   // Render the initially requested HRM route inside the persistent shell too.

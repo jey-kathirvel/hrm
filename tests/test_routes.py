@@ -46,8 +46,7 @@ class RouteRegressionTests(unittest.TestCase):
         self.assertIn("event.preventDefault()", layout)
         self.assertIn("frame.src = path", layout)
         self.assertIn("openModule(window.location.pathname + window.location.search)", layout)
-        self.assertIn("standalone.css?v=5", layout)
-        self.assertNotIn("frame.style.height", layout)
+        self.assertIn("standalone.css?v=4", layout)
 
 
 if __name__ == "__main__":
