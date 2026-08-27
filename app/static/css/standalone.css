@@ -464,7 +464,8 @@ label{
 .hrm-content-frame {
   display: none;
   width: 100%;
-  min-height: calc(100vh - 92px);
+  height: calc(100vh - 68px);
+  min-height: 520px;
   border: 0;
   background: transparent;
 }
@@ -480,6 +481,10 @@ body.hrm-embedded > .hrm-content-frame {
 
 body.hrm-embedded > main {
   padding-top: 1rem !important;
+}
+
+body:not(.hrm-embedded) {
+  overflow: hidden;
 }
 
 @media print {
