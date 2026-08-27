@@ -4,7 +4,10 @@ from sqlalchemy import engine_from_config, pool
 from app.config.settings import settings
 from app.models.base import Base
 from app.auth.models import User
-from app.hrm.models import Employee, Attendance, LeaveRequest
+from app.hrm.models import (
+    Attendance, AttendanceRegularization, Department, Designation, Employee,
+    Holiday, LeaveBalance, LeavePolicy, LeaveRequest, LeaveType, WorkLocation,
+)
 config=context.config; config.set_main_option("sqlalchemy.url",settings.sqlalchemy_url().replace("%","%%"))
 if config.config_file_name: fileConfig(config.config_file_name)
 target_metadata=Base.metadata

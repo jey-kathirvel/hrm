@@ -50,6 +50,18 @@
       </li>
 
       <li class="nav-item">
+        <a class="nav-link {% if '/holidays' in request.url.path %}active{% endif %}" href="/hrm/holidays">
+          <i class="fas fa-calendar-day mr-1"></i> Holidays
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {% if '/settings/masters' in request.url.path %}active{% endif %}" href="/hrm/settings/masters">
+          <i class="fas fa-cogs mr-1"></i> HR Masters
+        </a>
+      </li>
+
+      <li class="nav-item">
         <a class="nav-link {% if '/employees' in request.url.path %}active{% endif %}"
            href="/hrm/employees">
           <i class="fas fa-users mr-1"></i>
