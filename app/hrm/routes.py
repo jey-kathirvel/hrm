@@ -1,13 +1,15 @@
 from datetime import date, time
 from decimal import Decimal
 
-from fastapi import APIRouter, Depends, Form, HTTPException, Request
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from app.auth.dependencies import login_required
 from app.config.database import get_db
+from app.config.settings import settings
+from app.hrm.company import get_company_profile, normalize_gstin, save_company_profile, store_company_logo
 from app.hrm.service import HRMService
 
 router = APIRouter(prefix="/hrm", dependencies=[Depends(login_required)])
@@ -171,6 +173,29 @@ def holiday_create(name: str = Form(...), holiday_date: date = Form(...), catego
 @router.get("/settings/masters", response_class=HTMLResponse)
 def masters_page(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse(request=request, name="hrm/masters.html", context=HRMService.masters(db))
+
+
+@router.get("/settings/company", response_class=HTMLResponse)
+def company_page(request: Request, db: Session = Depends(get_db)):
+    return templates.TemplateResponse(request=request, name="hrm/company.html", context={"company": get_company_profile(db)})
+
+
+@router.post("/settings/company")
+async def company_save(legal_name: str = Form(...), display_name: str = Form(""), gstin: str = Form(""), registered_address: str = Form(""), city: str = Form(""), state: str = Form(""), postal_code: str = Form(""), phone: str = Form(""), email: str = Form(""), website: str = Form(""), logo: UploadFile | None = File(None), db: Session = Depends(get_db)):
+    try:
+        if not legal_name.strip():
+            raise ValueError("Legal company name is required")
+        normalize_gstin(gstin)
+        logo_path = None
+        if logo and logo.filename:
+            content = await logo.read(settings.max_logo_bytes + 1)
+            logo_path = store_company_logo(content)
+        save_company_profile(db, legal_name=legal_name, display_name=display_name, gstin=gstin, registered_address=registered_address, city=city, state=state, postal_code=postal_code, phone=phone, email=email, website=website, logo_path=logo_path)
+    except ValueError as exc:
+        return redirect_with_message("/hrm/settings/company", str(exc), True)
+    except OSError:
+        return redirect_with_message("/hrm/settings/company", "Logo could not be stored; check the upload directory", True)
+    return redirect_with_message("/hrm/settings/company", "Company profile saved")
 
 
 @router.post("/settings/masters/simple")

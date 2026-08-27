@@ -20,7 +20,7 @@ class RouteRegressionTests(unittest.TestCase):
 
     def test_expected_routes_remain_and_foundation_routes_exist(self):
         paths = {route.path for route in main.app.routes}
-        for path in ("/health", "/login", "/hrm", "/hrm/employees", "/hrm/attendance", "/hrm/leaves", "/hrm/holidays", "/hrm/settings/masters", "/hrm/attendance/monthly"):
+        for path in ("/health", "/login", "/hrm", "/hrm/employees", "/hrm/attendance", "/hrm/leaves", "/hrm/holidays", "/hrm/settings/masters", "/hrm/settings/company", "/hrm/attendance/monthly"):
             self.assertIn(path, paths)
 
 

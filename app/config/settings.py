@@ -17,6 +17,8 @@ class Settings:
     db_name = os.getenv("DB_NAME", "hrm_db")
     db_user = os.getenv("DB_USER", "hrm_user")
     db_password = os.getenv("DB_PASSWORD", "")
+    upload_root = Path(os.getenv("UPLOAD_ROOT", str(ROOT / "uploads"))).resolve()
+    max_logo_bytes = int(os.getenv("MAX_LOGO_BYTES", str(2 * 1024 * 1024)))
 
     def sqlalchemy_url(self):
         if self.database_url:

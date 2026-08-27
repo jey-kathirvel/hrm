@@ -1,9 +1,28 @@
 from datetime import date, datetime, time
 
-from sqlalchemy import Boolean, Date, DateTime, ForeignKey, Integer, Numeric, String, Text, Time, UniqueConstraint
+from sqlalchemy import Boolean, CheckConstraint, Date, DateTime, ForeignKey, Integer, Numeric, String, Text, Time, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base
+
+
+class CompanyProfile(Base):
+    __tablename__ = "hrm_company_profile"
+    __table_args__ = (CheckConstraint("id = 1", name="ck_hrm_company_profile_singleton"),)
+    id: Mapped[int] = mapped_column(primary_key=True, default=1)
+    legal_name: Mapped[str] = mapped_column(String(180))
+    display_name: Mapped[str | None] = mapped_column(String(180))
+    gstin: Mapped[str | None] = mapped_column(String(15), unique=True)
+    registered_address: Mapped[str | None] = mapped_column(Text)
+    city: Mapped[str | None] = mapped_column(String(100))
+    state: Mapped[str | None] = mapped_column(String(100))
+    postal_code: Mapped[str | None] = mapped_column(String(10))
+    phone: Mapped[str | None] = mapped_column(String(30))
+    email: Mapped[str | None] = mapped_column(String(150))
+    website: Mapped[str | None] = mapped_column(String(255))
+    logo_path: Mapped[str | None] = mapped_column(String(255))
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
 class Department(Base):

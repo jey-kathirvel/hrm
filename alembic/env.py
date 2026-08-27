@@ -5,7 +5,7 @@ from app.config.settings import settings
 from app.models.base import Base
 from app.auth.models import User
 from app.hrm.models import (
-    Attendance, AttendanceRegularization, Department, Designation, Employee,
+    Attendance, AttendanceRegularization, CompanyProfile, Department, Designation, Employee,
     Holiday, LeaveBalance, LeavePolicy, LeaveRequest, LeaveType, WorkLocation,
 )
 config=context.config; config.set_main_option("sqlalchemy.url",settings.sqlalchemy_url().replace("%","%%"))
