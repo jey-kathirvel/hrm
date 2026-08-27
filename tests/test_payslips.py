@@ -1,4 +1,5 @@
 import os
+import tempfile
 import unittest
 from datetime import date
 from decimal import Decimal
@@ -14,7 +15,7 @@ from app.auth.models import User  # noqa: E402,F401
 from app.config.settings import settings  # noqa: E402
 from app.hrm.company import save_company_profile  # noqa: E402
 from app.hrm.models import CompanyProfile, Employee  # noqa: E402
-from app.hrm.payroll import calculate, email_payslip, render_pdf, save_payslip  # noqa: E402
+from app.hrm.payroll import calculate, email_payslip, payslip_logo_file, render_pdf, save_payslip  # noqa: E402
 from app.hrm.payroll_models import Payslip  # noqa: E402
 from app.hrm.payroll_routes import normalize_save_form  # noqa: E402
 from app.models.base import Base  # noqa: E402
@@ -60,6 +61,21 @@ class PayslipTests(unittest.TestCase):
     def test_pdf_is_generated(self):
         item=save_payslip(self.db,employee_id=self.employee.id,payroll_month="2026-09",basic="30000")
         pdf=render_pdf(item); self.assertTrue(pdf.startswith(b"%PDF")); self.assertGreater(len(pdf),1000)
+
+    def test_payslip_logo_path_is_resolved_safely(self):
+        item=save_payslip(self.db,employee_id=self.employee.id,payroll_month="2026-12",basic="30000")
+        old_root = settings.upload_root
+        try:
+            with tempfile.TemporaryDirectory() as directory:
+                settings.upload_root = __import__("pathlib").Path(directory)
+                logo = settings.upload_root / "company" / "company-logo.jpg"
+                logo.parent.mkdir(); logo.write_bytes(b"logo")
+                item.company_logo_path = "company/company-logo.jpg"
+                self.assertEqual(payslip_logo_file(item), logo.resolve())
+                item.company_logo_path = "../outside.jpg"
+                self.assertIsNone(payslip_logo_file(item))
+        finally:
+            settings.upload_root = old_root
 
     @patch("app.hrm.payroll.smtplib.SMTP_SSL")
     def test_email_uses_configured_sender_and_pdf_attachment(self, smtp):

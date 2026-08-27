@@ -3,12 +3,13 @@ from datetime import date, datetime
 from decimal import Decimal
 from email.message import EmailMessage
 from io import BytesIO
+from pathlib import Path
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -94,10 +95,27 @@ def save_payslip(db: Session, payslip_id=None, **data):
     return payslip
 
 
+def payslip_logo_file(payslip: Payslip):
+    if not payslip.company_logo_path:
+        return None
+    root = settings.upload_root.resolve()
+    candidate = (root / payslip.company_logo_path).resolve()
+    if root not in candidate.parents or not candidate.is_file():
+        return None
+    return candidate
+
+
 def render_pdf(payslip: Payslip):
     buffer = BytesIO(); styles = getSampleStyleSheet()
     doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=18*mm, leftMargin=18*mm, topMargin=15*mm, bottomMargin=15*mm)
-    story = [Paragraph(payslip.company_name, styles["Title"]), Paragraph(payslip.company_address or "", styles["Normal"])]
+    story = []
+    logo_file = payslip_logo_file(payslip)
+    if logo_file:
+        logo = Image(str(logo_file))
+        scale = min(40*mm/logo.drawWidth, 20*mm/logo.drawHeight, 1)
+        logo.drawWidth *= scale; logo.drawHeight *= scale; logo.hAlign = "CENTER"
+        story += [logo, Spacer(1, 4)]
+    story += [Paragraph(payslip.company_name, styles["Title"]), Paragraph(payslip.company_address or "", styles["Normal"])]
     if payslip.company_gstin: story.append(Paragraph(f"GSTIN: {payslip.company_gstin}", styles["Normal"]))
     story += [Spacer(1, 8), Paragraph(f"Payslip - {payslip.payroll_month.strftime('%B %Y')}", styles["Heading2"])]
     details = [["Employee", payslip.employee_name, "Code", payslip.employee_code], ["Department", payslip.department or "-", "Designation", payslip.designation or "-"], ["Paid Days", str(payslip.paid_days), "LOP Days", str(payslip.lop_days)]]
