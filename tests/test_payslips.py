@@ -16,6 +16,7 @@ from app.hrm.company import save_company_profile  # noqa: E402
 from app.hrm.models import CompanyProfile, Employee  # noqa: E402
 from app.hrm.payroll import calculate, email_payslip, render_pdf, save_payslip  # noqa: E402
 from app.hrm.payroll_models import Payslip  # noqa: E402
+from app.hrm.payroll_routes import normalize_save_form  # noqa: E402
 from app.models.base import Base  # noqa: E402
 
 
@@ -32,6 +33,14 @@ class PayslipTests(unittest.TestCase):
     def test_manual_totals(self):
         result = calculate({"basic":"30000","hra":"12000","employee_pf":"1800","tds":"1000"})
         self.assertEqual(result["gross_earnings"], Decimal("42000.00")); self.assertEqual(result["net_pay"], Decimal("39200.00"))
+
+    def test_save_form_passes_payslip_id_only_once(self):
+        create_data, create_id = normalize_save_form({"payslip_id": "", "employee_id": "1"})
+        self.assertIsNone(create_id)
+        self.assertNotIn("payslip_id", create_data)
+        edit_data, edit_id = normalize_save_form({"payslip_id": "27", "employee_id": "1"})
+        self.assertEqual(edit_id, 27)
+        self.assertNotIn("payslip_id", edit_data)
 
     def test_negative_net_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "cannot exceed"):

@@ -20,6 +20,12 @@ def go(message, error=False):
     return RedirectResponse(f"/hrm/payslips?{'error' if error else 'success'}={quote(message)}", 303)
 
 
+def normalize_save_form(form):
+    data = dict(form)
+    raw_payslip_id = data.pop("payslip_id", "")
+    return data, int(raw_payslip_id) if raw_payslip_id else None
+
+
 @router.get("", response_class=HTMLResponse)
 def list_page(request: Request, db: Session = Depends(get_db)):
     items = db.query(Payslip).order_by(Payslip.payroll_month.desc(), Payslip.employee_name).all()
@@ -42,8 +48,9 @@ def edit_page(payslip_id: int, request: Request, db: Session = Depends(get_db)):
 
 @router.post("/save")
 async def save(request: Request, db: Session = Depends(get_db)):
-    data = dict(await request.form())
-    try: item = save_payslip(db, payslip_id=int(data["payslip_id"]) if data.get("payslip_id") else None, **data)
+    try:
+        data, payslip_id = normalize_save_form(await request.form())
+        item = save_payslip(db, payslip_id=payslip_id, **data)
     except (ValueError, KeyError) as exc: return go(str(exc), True)
     return RedirectResponse(f"/hrm/payslips/{item.id}", 303)
 
