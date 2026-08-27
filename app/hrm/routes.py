@@ -24,6 +24,18 @@ def optional_time(value: str):
         return None
 
 
+def form_int(value: str | int | None, field_name: str, required=False):
+    """Convert an HTML form ID, treating an unselected optional field as None."""
+    if value is None or str(value).strip() == "":
+        if required:
+            raise ValueError(f"{field_name} is required")
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"Invalid {field_name.lower()}") from exc
+
+
 def redirect_with_message(path: str, message: str, error=False):
     from urllib.parse import quote
     key = "error" if error else "success"
@@ -61,11 +73,16 @@ def employee_edit_page(employee_id: int, request: Request, db: Session = Depends
 
 
 @router.post("/employees/save")
-def employee_save(employee_id: int | None = Form(None), full_name: str = Form(...), email: str = Form(""), phone: str = Form(""), department_id: int | None = Form(None), designation_id: int | None = Form(None), reporting_manager_id: int | None = Form(None), work_location_id: int | None = Form(None), employment_type: str = Form("FULL_TIME"), join_date: date = Form(...), basic_salary: Decimal = Form(0), emergency_contact: str = Form(""), address: str = Form(""), is_active: bool = Form(False), db: Session = Depends(get_db)):
-    employee = HRMService.employee(db, employee_id)
-    if employee_id and not employee:
-        raise HTTPException(404, "Employee not found")
+def employee_save(employee_id: str = Form(""), full_name: str = Form(...), email: str = Form(""), phone: str = Form(""), department_id: str = Form(""), designation_id: str = Form(""), reporting_manager_id: str = Form(""), work_location_id: str = Form(""), employment_type: str = Form("FULL_TIME"), join_date: date = Form(...), basic_salary: Decimal = Form(0), emergency_contact: str = Form(""), address: str = Form(""), is_active: bool = Form(False), db: Session = Depends(get_db)):
     try:
+        employee_id = form_int(employee_id, "Employee ID")
+        department_id = form_int(department_id, "Department", required=True)
+        designation_id = form_int(designation_id, "Designation", required=True)
+        reporting_manager_id = form_int(reporting_manager_id, "Reporting manager")
+        work_location_id = form_int(work_location_id, "Work location")
+        employee = HRMService.employee(db, employee_id)
+        if employee_id and not employee:
+            raise HTTPException(404, "Employee not found")
         HRMService.save_employee(db, employee, full_name=full_name.strip(), email=email or None, phone=phone or None, department_id=department_id, designation_id=designation_id, reporting_manager_id=reporting_manager_id, work_location_id=work_location_id, employment_type=employment_type, join_date=join_date, basic_salary=max(basic_salary, 0), emergency_contact=emergency_contact or None, address=address or None, is_active=is_active)
     except ValueError as exc:
         return redirect_with_message("/hrm/employees", str(exc), True)
