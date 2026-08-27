@@ -453,3 +453,10 @@ label{
     padding:28px 22px;
   }
 }
+
+@media print{
+  .hrm-nav,.d-print-none{display:none!important}
+  body{background:#fff}
+  main.container-fluid{padding:0!important}
+  .payslip-print .card{box-shadow:none;border:0}
+}

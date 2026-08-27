@@ -91,6 +91,8 @@
         </a>
       </li>
 
+      <li class="nav-item"><a class="nav-link {% if '/payslips' in request.url.path %}active{% endif %}" href="/hrm/payslips"><i class="fas fa-file-invoice-dollar mr-1"></i> Payslips</a></li>
+
       <li class="nav-item ml-lg-2">
         <form method="post" action="/logout">
           <button type="submit" class="btn btn-link nav-link">

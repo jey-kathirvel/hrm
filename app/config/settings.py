@@ -19,6 +19,13 @@ class Settings:
     db_password = os.getenv("DB_PASSWORD", "")
     upload_root = Path(os.getenv("UPLOAD_ROOT", str(ROOT / "uploads"))).resolve()
     max_logo_bytes = int(os.getenv("MAX_LOGO_BYTES", str(2 * 1024 * 1024)))
+    smtp_host = os.getenv("SMTP_HOST", "smtp.hostinger.com")
+    smtp_port = int(os.getenv("SMTP_PORT", "465"))
+    smtp_user = os.getenv("SMTP_USER", "tech@ads-ai.in")
+    smtp_password = os.getenv("SMTP_PASSWORD", "")
+    smtp_from_email = os.getenv("SMTP_FROM_EMAIL", "tech@ads-ai.in")
+    smtp_use_ssl = os.getenv("SMTP_USE_SSL", "true").lower() == "true"
+    smtp_use_starttls = os.getenv("SMTP_USE_STARTTLS", "false").lower() == "true"
 
     def sqlalchemy_url(self):
         if self.database_url:

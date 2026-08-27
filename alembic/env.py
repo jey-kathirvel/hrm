@@ -4,6 +4,7 @@ from sqlalchemy import engine_from_config, pool
 from app.config.settings import settings
 from app.models.base import Base
 from app.auth.models import User
+from app.hrm.payroll_models import Payslip
 from app.hrm.models import (
     Attendance, AttendanceRegularization, CompanyProfile, Department, Designation, Employee,
     Holiday, LeaveBalance, LeavePolicy, LeaveRequest, LeaveType, WorkLocation,
