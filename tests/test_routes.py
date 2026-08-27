@@ -1,6 +1,5 @@
 import os
 import unittest
-from pathlib import Path
 from unittest.mock import MagicMock
 
 os.environ.setdefault("SESSION_SECRET", "test-session-secret-at-least-thirty-two-characters")
@@ -38,13 +37,6 @@ class RouteRegressionTests(unittest.TestCase):
             form_int("", "Department", required=True)
         with self.assertRaisesRegex(ValueError, "Invalid reporting manager"):
             form_int("not-an-id", "Reporting manager")
-
-    def test_base_layout_uses_persistent_iframe_navigation(self):
-        layout = Path("app/templates/layouts/base.html").read_text(encoding="utf-8")
-        self.assertIn('id="hrm-content-frame"', layout)
-        self.assertIn("window.self !== window.top", layout)
-        self.assertIn("event.preventDefault()", layout)
-        self.assertIn("frame.src = path", layout)
 
 
 if __name__ == "__main__":

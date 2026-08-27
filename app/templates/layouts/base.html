@@ -107,59 +107,12 @@
   </div>
 </nav>
 
-<main id="hrm-page-content" class="container-fluid py-4 px-lg-5">
+<main class="container-fluid py-4 px-lg-5">
   {% block content %}{% endblock %}
 </main>
 
-<iframe id="hrm-content-frame"
-        class="hrm-content-frame"
-        name="hrm-content-frame"
-        title="HRM module content"></iframe>
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-(function () {
-  if (window.self !== window.top) {
-    document.body.classList.add('hrm-embedded');
-    return;
-  }
-
-  var frame = document.getElementById('hrm-content-frame');
-  var page = document.getElementById('hrm-page-content');
-  var moduleLinks = document.querySelectorAll('#hrmNavigation a.nav-link[href^="/hrm"]');
-
-  function openModule(path) {
-    page.hidden = true;
-    frame.classList.add('is-active');
-    frame.src = path;
-    moduleLinks.forEach(function (link) {
-      link.classList.toggle('active', link.getAttribute('href') === path ||
-        (path !== '/hrm' && path.indexOf(link.getAttribute('href')) === 0));
-    });
-  }
-
-  moduleLinks.forEach(function (link) {
-    link.setAttribute('target', 'hrm-content-frame');
-    link.addEventListener('click', function (event) {
-      event.preventDefault();
-      openModule(link.getAttribute('href'));
-    });
-  });
-
-  frame.addEventListener('load', function () {
-    try {
-      var innerDocument = frame.contentDocument;
-      if (innerDocument) {
-        frame.style.height = Math.max(innerDocument.documentElement.scrollHeight,
-          innerDocument.body ? innerDocument.body.scrollHeight : 0, 700) + 'px';
-      }
-    } catch (error) {
-      frame.style.height = 'calc(100vh - 92px)';
-    }
-  });
-}());
-</script>
 
 </body>
 </html>
